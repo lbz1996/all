@@ -1,0 +1,9 @@
+total 20
+-rwxrwxr-x 1 lbz lbz 8304 Apr 28 19:51 a.out
+-rw-rw-r-- 1 lbz lbz    0 Apr 28 19:56 file
+-rw-rw-r-- 1 lbz lbz    2 Apr 28 19:56 ls
+-rw-rw-r-- 1 lbz lbz   68 Apr 28 19:51 main.c
+
+
+命令替换也可以用可执行命令作为参数,不一定非得是命令
+

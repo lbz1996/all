@@ -1,0 +1,98 @@
+文件操作:
+一.对于文件
+	1.1 文件指针FILE*和文件描述符fd的关系
+		每个进程会在进程控制块（PCB）当中保存着一份文件描述符表，
+		文件描述符就是这个表的索引，每个表都有一个指向已经打开文件的指针
+		文件指针指向一个缓冲区和一个文件描述符
+	1.2 二者的转换
+		FILE* -> fileno -> fd
+		fd -> fdopen -> FILE* (需要加打开方式,同fopen,如"w"等)
+	1.3 通过文件指针FILE*进行操作
+		1.fopen/fclose
+		2.读写:
+			二进制:
+					fread/fwrite
+			格式化:
+					printf/scanf
+					fprintf/fscanf
+					sprintf/sscanf
+			单个字符:
+					getc/putc fgetc/fputc 区别?
+					getchar/putchar
+			字符串:
+					gets/puts
+					fgets/fputs
+		3.定位于偏移(文件读写都是通过文件当前的读写点进行读写的)-只有一个?
+			feof:判断
+			fseek:偏移 SEEK_SET/CUR/END 开头/当前/末尾 0/1/2
+			ftell:获得当前位置
+			rewind:重回到起点
+	1.4 通过文件描述符fd进行操作
+		1.open/creat/close flags的可选项怎么记忆?
+		2.读写:
+				read/write
+		3.改变文件大小:
+				ftruncate 截断......
+		4.定位:
+				lseek 同fseek(0/1/2)
+	
+	 	5.赋值文件描述符fd:
+				dup/dup2(注意原来的fd也好使!)
+		6.I/O多路转接模型:(?)
+				select:
+						判断文件(集合)状态
+						调用:集合中最大fd+1,读集合,写集合,异常集合,等待时间(int,后面全是指针!!!!)
+						集合:fd_set类型 通过FD_ZERO/SET/CLR/ISSET
+											  (清零/加入/删除/判断是否在内)来操作
+						等待时间:struct timeval类型 -tv_sec(秒)和tv_usec(毫秒)
+								(注意重新赋值!!!)
+二.对于目录(目录文件也是文件)
+	2.1 FIR,struct dirent和struct stat之间的关系
+   		struct DIR类似于FILE
+		struct dirent则不仅仅指向目录,还指向其中的文件
+		struct stat则保留着详细信息,而不光是索引
+	2.2 对目录进行操作
+		1.getcwd/chdir:获取/切换当前工作目录
+						(getcwd的返回值是字符串指针,可以由系统自己配置)
+		2.mkdir/rmdir:创建/删除指定目录
+		3.opendir/readdir/rewinddir/seekdir/telldir/closedir
+	   	  打开/读取(返回dirent)/重置/偏移/当前/关闭
+三.获取文件信息
+	1.stat
+	2.fstat
+	和之前命名规则相反,stat加文件名,fstat加文件标识符fd......!!!
+四.将文件或其他对象映射进内存直接进行操作
+	1.mmap   
+	  参数:	 映射区开始地址(0为由系统设定)
+             长度
+			 内存保护标志prot(通过|结合)
+			 映射对象类型flag(MAP_???)
+			 文件描述符fd
+			 被映射对象内容的起点off_toffset
+	  返回值:成功返回映射区指针,失败返回-1
+	2.mummap 
+	  参数:  映射区地址的指针
+			 映射区长度
+	  返回值:成功返回0,失败返回-1
+	3.msync: 实现文件内容和内存区(m)的内容同步(sync)
+	  参数:  映射区地址的指针
+	 		 映射区大小(长度)
+			 刷新方式:MS_SYNC/ASYNC/INVALIDATE
+			 		立即返回/等待更新完成再返回/通知其他进程失效
+	  返回值:成功返回0,失败返回-1
+五.硬链接、软链接和管道
+	1.硬链接和软连接的不同:直接引用和间接引用???
+	2.管道:mkfifo建立一个管道(既是命令又是函数!!!)
+
+
+
+
+
+
+
+
+
+
+
+
+

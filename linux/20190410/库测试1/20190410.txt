@@ -1,0 +1,188 @@
+	1  gg
+    2  lcear
+    3  sudo apt install gcc
+    4  exit
+    5  sudo apt install gcc
+    6  sudo apt install vim-youcompleteme
+    7  vim-addons install youcompleteme
+    8  ls
+    9  ls -a
+   10  cd ~
+   11  ls 
+   12  ls -a
+   13  cd ../
+   14  ls -a
+   15  cd lbz
+   16  ls
+   17  vim main.c
+   18  vim .vimrc
+   19  cd ..
+   20  ls -a
+   21  cd ../
+   22  ls -a
+   23  ls ~
+   24  ls -a
+   25  vim /bin/bashrc
+   26  cd ../
+   27  cd ..
+   28  cat ~/bin/bashrc
+   29  cat ./bin/bashrc
+   30  clear
+   31  ls -a
+   32  vim /etc/bin/bashrc
+   33  vim /etc/bashrc
+   34  tree
+   35  apt install tree
+   36  cler
+   37  find -name bashrc
+   38  find -name bashrc|grep "*bash*"
+   39  cd 
+   40  ls -a
+   41  su
+   42  exit
+   43  clear
+   44  ls -a
+   45  touch .vimrc
+   46  vim .vimrc 
+   47  ls ~
+   48  cd ~
+   49  pkw
+   50  pkd
+   51  kwd
+   52  pwd
+   53  ls -a
+   54  ls
+   55  vim main.c
+   56  su
+   57  exit
+   58  clear
+   59  ls
+   60  vim main.c
+   61  gdb
+   62  apt install gdb
+   63  sudo apt install gdb
+   64  su
+   65  apt install gdb
+   66  su lbz
+   67  exit
+   68  ls
+   69  cd 20190410/
+   70  ls
+   71* 
+   72  cd 库测试1
+   73  ls
+   74  gcc -o main main.c -L/home/lbz/20190410/库测试2 -lmyadd
+   75  ./main
+   76  gcc -o  -L/home/lbz/20190410/库测试2  main main.c   -lmyadd
+   77  gcc -o  main mian.c  -L/home/lbz/20190410/库测试2 -lmyadd
+   78  ls
+   79  gcc -o  main main.c  -L/home/lbz/20190410/库测试2 -lmyadd
+   80  ls
+   81  main
+   82  ./main
+   83  gcc -o  main main.c  -L=/home/lbz/20190410/库测试2 -lmyadd
+   84  ls
+   85  ./main
+   86  gcc -o  main main.c  -L /home/lbz/20190410/库测试2 -lmyadd
+   87  ls
+   88  main
+   89  ./main
+   90  gcc -o  main main.c  -L:/home/lbz/20190410/库测试2 -lmyadd
+   91  gcc -o  main main.c  -L /home/lbz/20190410/库测试2 -lmyadd
+   92  ./main
+   93  ls
+   94  vim mian.c
+   95  vim main.c
+   96  cd ../
+   97  cd 库测试2
+   98  ls
+   99  vim myadd.c
+  100  gcc -fPIC -Wall -c  myadd.c
+  101  ls
+  102  gcc -shared -o libadd.so myadd.o
+  103  ls
+  104  cd ../库测试2
+  105  cd ../库测试1
+  106  ls
+  107  gcc -o main main.c -L /home/lbz/20190410/ -ladd
+  108  gcc -o main main.c -L /home/lbz/20190410/库测试2 -ladd
+  109  ls
+  110  ./main
+  111  rm
+  112  ls
+  113  cd ../库测试2
+  114  ls
+  115  vim head.h
+  116  cd ../库测试1
+  117  ls
+  118  main
+  119  vim main.c
+  120  gcc -o main main.c -L/home/lbz/20190410/库测试2
+  121  vim main.c
+  122  gcc -o main main.c -L/home/lbz/20190410/库测试2
+  123  gcc -o main main.c -I/home/lbz/20190410/库测试2 
+  124  ls
+  125* ./main 
+  126  vim main.c
+  127  gcc -o main main.c -I/home/lbz/20190410/库测试2 -E DEBUG
+  128  gcc -o main main.c -I/home/lbz/20190410/库测试2 -D DEBUG
+  129  ls
+  130  ./main
+  131  ls
+  132  cd ../
+  133  ls
+  134  useradd shuaibi
+  135  速冻
+  136  sudo shuaibi
+  137  sudo  useradd shuaibi
+  138  passwd shuaibi
+  139  sudo passwd shuaibi
+  140  cd
+  141  ls
+  142  cd 20190410/
+  143  cd 
+  144  ls
+  145  cd 20190410/库测试1
+  146  ls
+  147  cd ../测试2
+  148  ls
+  149  cd ../测试2
+  150  cd ../
+  151  ls
+  152  cd 测试2
+  153  cd 库测试2
+  154  ls
+  155  sudo cp libadd.so /user/lib
+  156  sudo cp libadd.so .. /user/lib
+  157  sudo cp libadd.so ../user/lib
+  158  ls ../
+  159  ls ..../
+  160  cd ../
+  161  ls
+  162  ls -a
+  163  ls -l
+  164  cd lbz
+  165  ls -a
+  166  cd ../
+  167  ls -a
+  168  cd ~
+  169  ls
+  170  cd 2019
+  171  cd 20190410/库测试2
+  172  ls
+  173  sudo cp libadd.so /lib
+  174  sudo cp libmymulti.so /lib
+  175  cd ../库测试1
+  176  ls
+  177  vim main.c
+  178  sudo cp libmyadd.so /lib
+  179  sudo cp ../库测试2/libmyadd.so /lib
+  180  gcc -o main main.c -lmyadd -lmulti
+  181  gcc -o main main.c -I/home/lbz/20190410/库测试2 -lmyadd -lmulti
+  182  gcc -o main main.c -I/home/lbz/20190410/库测试2 -lmyadd -lmymulti
+  183  ./main
+  184  gcc -o main main.c -I/home/lbz/20190410/库测试2 -lmyadd -lmymulti -D DEBUG
+  185  ./main
+  186  gcc -o main main.c -I/home/lbz/20190410/库测试2   -L/home/lbz/20190410/库测试2 -lmyadd -lmymulti -D DEBUG    
+  187  ./main
+  188  history >20190410.txt

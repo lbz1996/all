@@ -1,0 +1,58 @@
+多线程:
+一.概述
+	1.1 线程是进程的基础基础调度单位,共享进程空间,只拥有自己的栈空间(同一进程的其他线程也可以访问).
+	1.2 用户级线程:
+		核心级线程:
+	1.3 实现通过用户级的函数库实现,通过pthread线程库(nptl线程库?)实现访问控制
+二.线程的创建和退出
+	2.1 原理:
+		1.启动: 确定调用该线程函数的入口点,调用pthread_create函数创建之后就开始运行相关的线程函数
+		2.结束: 运行完就退出/调用pthread_exit函数主动退出(不要用exit函数,会爆炸)
+		3.等待: pthread_join函数来将自身挂起,然后等待其他指定的线程,
+				结束后回收被等待线程资源(不回收堆空间!!!)
+		4.取消(被其他进程杀死):pthread_cancel函数可以杀死线程
+		5.清理:函数结束后需要释放资源(特别是锁),通过调用pthread_cleanup_pop/push实现,
+			   每次调用清理函数的时候都要用pop函数来弹栈并且设置参数为非0表示立即执行,
+			   否则仅仅在线程调用exit或被其他线程cancel的时候才会弹出并且执行
+	pthread_creat()
+	pthread_exit()
+	pthread_join()//!!!
+	pthread_cancel()
+	pthread_cleanup_pop()
+	pthread_cleanup_push()
+三.线程的互斥
+	1.1 概念:互斥锁只有两种状态(上锁或解锁),看作某种意义上的全局变量
+	1.2 原理:线程希望访问一个已经上锁的锁时,自己就会被挂起,
+			 直到上锁的线程解锁为止(所以上锁的线程需要负责释放掉互斥锁)
+	1.3 创建:静态(不会)/动态
+		1.先声明: pthread_mutex_t 名字
+		2.初始化: pthread_mutex_init(&名字,互斥锁属性)
+	  		 属性:	 NULL:缺省值
+   					 PTHREAD_MUTEX_RECURSIVE_NP:嵌套锁
+	  				 PTHREAD_MUTEX_ERRORCHECK_NP:检错锁 
+		3.销毁: pthread_mutex_destory(&名字)
+			要求锁为打开状态,其实只是检查锁状态(并注销?)		
+		4.加锁:pthread_mutex_lock/pthread_mutex_trylook
+		5.解锁:pthread_mutex_unlock
+	1.4 注意:如果线程在加锁后被取消,锁将永远保持锁定状态!!!
+四.线程的同步(->同步变量)
+	1.1 概念: 利用线程间的全局变量进行同步的一种机制
+			  两个动作: 一个线程等待条件变量的条件变量成立而挂起
+			  			另一个线程使条件成立(给出条件成立信号)
+			  实现:和一个互斥锁结合在一起
+	2.1 创建:静态(不会)/动态
+		1.先声明: pthread_cond_t 名字
+		2.初始化: pthread_cond_init(&名字,NULL);
+		3.注销:   pthread_cond_destory(&名字)
+				  只有在没有什么线程在条件变量上等待的时候才能注销它,同锁的注销~
+		4.等待:	  无条件等待:pthread_cond_wait
+				  记时等待:  pthread_cond_timedwait(用的是绝对时间!)
+				  无论何种,前后都要来一套加解锁!
+		5.激活:   激活一个:pthread_cond_signal
+	   			  激活所有:pthread_cond_broadcast
+五.总之,多定义退出回调函数释放资源/解锁~!!!	  
+
+
+
+
+
