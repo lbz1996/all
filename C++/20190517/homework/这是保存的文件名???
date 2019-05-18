@@ -1,0 +1,5 @@
+2019-05-17 21:46:19,431 这是种类的名字?有啥用? :msg is main, filename is 2.log.cc, func is warn,line is 44
+2019-05-17 21:47:22,613 这是种类的名字?有啥用? :msg is main, filename is 2.log.cc, func is warn,line is 44
+2019-05-17 21:47:22,613 这是种类的名字?有啥用? :msg is test1, filename is 2.log.cc, func is warn,line is 44
+2019-05-17 23:00:01,588 这是种类的名字?有啥用? :msg is main, filename is 2.log.cc, func is warn,line is 44
+2019-05-17 23:00:01,591 这是种类的名字?有啥用? :msg is test1, filename is 2.log.cc, func is warn,line is 44

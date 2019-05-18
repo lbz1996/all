@@ -1,0 +1,71 @@
+命名空间
+1.using 编译指令 using namespace//一次性所有实体全部引用程序
+2.using 声明机制 using std
+3.作用域限定符   std::cin
+4.匿名命名空间 
+
+const关键字
+1.const修饰内置类型的数据:常量 const int number=1;//必须初始化
+2.const修饰指针的时候:
+  const int *p:可以改变指向
+  int const *p:同上
+  int *const p:可以改变指向的值
+  const int * const p
+
+new/delete和malloc/free的区别
+1.库函数/表达式
+2.申请空间的同时是否会进行初始化
+
+引用与指针的区别
+1.引用是变量的别名,不能单独存在/指针可以单独存在
+2.引用必须要进行初始化/指针不必
+3.引用一经初始化之后不能再改变指向(永远绑定!)
+4.引用作为函数参数/返回值
+  引用传递(直接操作实参),么有复制开销,可以提高执行效率
+  返回的变量/对象的生命周期一定要大于函数
+  不要返回局部变量的引用
+  不要轻易返回一个堆空间的引用,除非有回收内存的策略(容易造成内存泄露)
+5.都有地址的概念??引用底层实现还是指针
+
+强制转换
+stati_cast/const_cast/dynamic_cast/reinterpret_cast
+
+函数重载(按C++方式调用)
+实现原理:名字改编(name mangling)
+具体步骤:名称相同时,根据参数类型,个数,顺序进行改编
+
+C/C++混合编程
+ifdef __cplusplus
+extern "C"
+{
+endif
+
+
+
+ifdef cplusplus
+}
+endif
+
+默认参数
+如果将某一个参数设置成默认参数后,其后都要设置
+(设置顺序:从右往左!!!)
+
+inline函数
+功能与带参数的宏定义相同,直接用函数执行体替换函数名
+优势:有类型检查,更安全
+
+bool类型(1/0)
+
+std::string:C++风格的字符串
+const char*:C风格的字符串
+
+=/()/c_str()/data()-->>相互转换
+
+求取长度:size()/length()
+拼接:s1+s2/s1.append(s2)/
+
+
+
+
+
+
