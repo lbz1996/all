@@ -13,7 +13,7 @@
 using namespace std;
 using namespace log4cpp;
 
-
+#define prefix(msg) string (msg).append(__FUNCTION__).append(__FILE__).append(to_string(__LINE__))
 
 class Mylogger
 {
@@ -39,16 +39,19 @@ public:
     }
     void warn(const char *msg)
     {
-        _record.setPriority(Priority::WARN);
-        char str[200]={0};
-        sprintf(str,"msg is %s, filename is %s, func is %s,line is %d",msg,__FILE__,__func__,__LINE__);
-        _record.warn(str);
+        //_record.setPriority(Priority::WARN);
+        _record.warn(msg);
     }
 
 
 private:
     Mylogger():_record(Category::getRoot().getInstance("这是种类的名字?有啥用?"))
     {
+        PatternLayout * _patternLayout1;
+        PatternLayout * _patternLayout2;
+
+        OstreamAppender *_outAppender;
+        FileAppender *_fileAppender;
         cout<<"构造函数"<<endl;
         _patternLayout1 =new PatternLayout();
         _patternLayout1->setConversionPattern("%d %c %x:%m%n");
@@ -72,11 +75,6 @@ private:
 private:
     static Mylogger *_p_Mylogger;
 
-    PatternLayout * _patternLayout1;
-    PatternLayout * _patternLayout2;
-
-    OstreamAppender *_outAppender;
-    FileAppender *_fileAppender;
 
     Category &_record;
 };
@@ -87,16 +85,16 @@ Mylogger *Mylogger::_p_Mylogger=nullptr;
 void test1()
 {
     Mylogger *m1 = Mylogger::GetInstance();
-    m1->warn("test1");
-
+    m1->warn( prefix("test1").c_str() );
 }
 
 
 int main()
 {
     Mylogger *m1 = Mylogger::GetInstance();
-    m1->warn("main");
+    m1->warn( prefix("main").c_str() );
     test1();
+    Mylogger::destroy();
     return 0;
 }
 

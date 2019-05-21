@@ -1,11 +1,13 @@
 #include <iostream>
 
-using namespace std;
 int main()
 {
     std::cout << "Hello world" << std::endl;
-    string s1;
-    cout<<s1.size()<<endl;
+    int i=11;
+    int *p=nullptr;
+    if(p)
+        if(*p)
+            getchar();
     return 0;
 }
 
