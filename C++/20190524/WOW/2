@@ -1,0 +1,135 @@
+#ifndef __HEAD_H__
+#define __HEAD_H__
+#include <iostream>
+#include <cstdio>
+#include <cmath>
+#include <string>
+#include <vector>
+using namespace std;
+#define RED_BLUE (_rb==0?"red":"blue")
+
+int M,N,K,T;
+int time_now_min= 0;
+int H[5];
+int A[5];
+
+inline void print_time() { printf("%03d:%02d ",time_now_min/60,time_now_min%60); }
+
+class weapon
+{
+private:
+    int _use_time;
+    int _type;
+};
+
+class warrior
+{
+public:
+    warrior(bool rb,int id,int elements,int atk):_rb(rb),_id(id),_elements(elements),_atk(atk){}
+    ~warrior(){}
+
+    int get_rb(){return _rb;}
+    int get_id(){return _id;}
+
+    int get_weapon(vector<weapon> *weaponArray);
+    int sort_weapon(vector<weapon> *weaponArray);
+    int use_weapon(int atk);
+    int get_harmed(int harmed);
+    void set_elements(int elements);
+
+    int ice_harm();
+    int rob();
+    int run();
+public:
+    bool is_changed;
+    vector<weapon> _weaponA;
+    vector<weapon> _weaponR;
+private:
+    bool _rb;
+    int _id;
+    int _elements;
+    int _atk;
+};
+
+class dragon :public warrior { };
+class ninjia :public warrior { };
+class iceman :public warrior { };
+class lion   :public warrior { };
+class wolf   :public warrior { };
+
+class city
+{
+public:
+    city(int id) :_id(id) ,warrior1(nullptr) ,warrior2(nullptr){ cout<<"city()"<<endl;} 
+    city() :_id(-1) ,warrior1(nullptr) ,warrior2(nullptr){ cout<<"city()"<<endl;} 
+
+    ~city(){ cout<<"~city()"<<endl; }
+
+    void show(){cout<<"city: id = "<< _id << " ,warrior1 ->" << warrior1 << " ,warrior2 -> " << warrior2 << endl; }
+    void set_id(int id){ _id = id; }
+    void in_warrior(warrior *warrior0) { if(0==warrior0->get_rb()) warrior1 = warrior0; else warrior2 = warrior0; }
+
+private:
+    int _id;
+    warrior *warrior1;
+    warrior *warrior2;
+};
+
+
+
+
+
+class home :public city
+{
+public:
+    home(int id ):city(id),_left_elements(M),_warrior_id(1),_rb(id){ cout<<"home()"<<endl; }
+    ~home() {cout<<"~home()"<<endl;}
+    void home_hp_out() { print_time(); cout <<_left_elements << " elements in " << RED_BLUE << " headquarter" << endl; }
+
+private:
+    int _left_elements;
+    int _warrior_id;//数据成员定义时不能进行初始化
+    bool _rb;
+};
+
+
+
+
+class path
+{
+public:
+    path(int N):homeR(0),homeB(N+1),_pcityArray(new city[N+2])
+    {
+        cout<<"path()"<<endl;
+        _pcityArray[0]=homeR;
+        _pcityArray[N+1]=homeB;
+       for(int i=1;i<N+1;++i)
+            _pcityArray[i].set_id(i);
+    }
+
+    ~path()
+    {
+        cout<<"~path()"<<endl;
+        delete []_pcityArray;
+    }
+    void show()
+    {
+        for(int i=0;i<N+2;++i)
+            _pcityArray[i].show();
+    }
+
+
+    void home_hp_out()
+    {
+        homeR.home_hp_out();
+        homeB.home_hp_out();
+    }
+private:
+    home homeR;
+    home homeB;
+    city* _pcityArray;
+};
+
+
+
+#endif
