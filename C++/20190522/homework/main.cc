@@ -70,8 +70,7 @@ public:
                 //else if(0==strcmp(item_child->Name(),"content:encoded"))
                 else if(regex_search(child_name,matchs,pattern))
                 {
-                                        
-                    tmp.content += item_child->GetText();//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                  tmp.content += item_child->GetText();//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 }
                 item_child = item_child->NextSiblingElement();
             }
@@ -84,7 +83,7 @@ public:
         ofstream file_out(filename); 
         for(size_t i = 0;i<_rss.size();++i)
         {
-            file_out<<"<doc"<<endl
+            file_out<<"<doc>"<<endl
                 <<" <docid>"<<i<<"</docid>"<<endl
                 <<" <title>"<<_rss[i].title<<"</title>"<<endl
                 <<" <link>"<<_rss[i].link<<"</link>"<<endl

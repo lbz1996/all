@@ -1,0 +1,16 @@
+1.线程池管理器(ThreadPoolManager)
+
+2.工作线程(WorkThread)
+
+3.任务接口(TaskFunc)
+
+4.任务队列(TaskQueue)
+
+
+
+基于对象:
+面向对象:
+class Thread
+{
+
+};

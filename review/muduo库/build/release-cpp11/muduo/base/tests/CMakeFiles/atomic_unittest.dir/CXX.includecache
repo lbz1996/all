@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/lbz/github/all/review/muduo库/muduo/muduo/base/Atomic.h
+muduo/base/noncopyable.h
+/home/lbz/github/all/review/muduo库/muduo/muduo/base/muduo/base/noncopyable.h
+stdint.h
+-
+
+/home/lbz/github/all/review/muduo库/muduo/muduo/base/noncopyable.h
+
+/home/lbz/github/all/review/muduo库/muduo/muduo/base/tests/Atomic_unittest.cc
+muduo/base/Atomic.h
+/home/lbz/github/all/review/muduo库/muduo/muduo/base/tests/muduo/base/Atomic.h
+assert.h
+-
+

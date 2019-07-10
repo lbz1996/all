@@ -1,0 +1,107 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+A	head.h	/^int A[5];$/;"	v
+H	head.h	/^int H[5];$/;"	v
+K	head.h	/^int M,N,K,T;$/;"	v
+M	head.h	/^int M,N,K,T;$/;"	v
+N	head.h	/^int M,N,K,T;$/;"	v
+PRI_BORN	head.h	16;"	d
+PRI_GO	head.h	22;"	d
+PRI_TAKON	head.h	32;"	d
+RED_BLUE	head.h	11;"	d
+T	head.h	/^int M,N,K,T;$/;"	v
+__HEAD_H__	head.h	2;"	d
+_atk	head.h	/^    int _atk;$/;"	m	class:warrior
+_elements	head.h	/^    int _elements;$/;"	m	class:warrior
+_id	head.h	/^    int _id;$/;"	m	class:city
+_id	head.h	/^    int _id;$/;"	m	class:warrior
+_is_run	head.h	/^    bool _is_run;$/;"	m	class:home
+_left_elements	head.h	/^    int _left_elements;$/;"	m	class:home
+_loyal	head.h	/^    int _loyal;$/;"	m	class:lion
+_new_in_1	head.h	/^    bool _new_in_1;$/;"	m	class:city
+_new_in_2	head.h	/^    bool _new_in_2;$/;"	m	class:city
+_pcityArray	head.h	/^    city** _pcityArray;$/;"	m	class:path
+_rb	head.h	/^    bool _rb;$/;"	m	class:home
+_rb	head.h	/^    bool _rb;$/;"	m	class:warrior
+_type	head.h	/^    int _type;$/;"	m	class:warrior
+_type	head.h	/^    int _type;$/;"	m	class:weapon
+_use_time	head.h	/^    int _use_time;$/;"	m	class:weapon
+_warrior_id	head.h	/^    int _warrior_id;\/\/数据成员定义时不能进行初始化$/;"	m	class:home
+_weaponA	head.h	/^    vector<weapon> _weaponA;$/;"	m	class:warrior
+_weaponR	head.h	/^    vector<weapon> _weaponR;$/;"	m	class:warrior
+born	head.h	/^    void born(int times)$/;"	f	class:home
+born	head.h	/^    void born(int times)$/;"	f	class:path
+city	head.h	/^    city() :_id(-1) ,warrior1(nullptr) ,warrior2(nullptr){ cout<<"city()"<<endl;} $/;"	f	class:city
+city	head.h	/^    city(int id) :_id(id) ,warrior1(nullptr) ,warrior2(nullptr),_new_in_1(0),_new_in_2(0){ cout<<"city()"<<endl;} $/;"	f	class:city
+city	head.h	/^class city$/;"	c
+cmp1	head.h	/^bool cmp1(weapon weapon1,weapon weapon2) { return weapon1.show_type() < weapon2.show_type(); }$/;"	f
+cmp2	head.h	/^bool cmp2(weapon weapon1,weapon weapon2) { return weapon1.show_use() > weapon2.show_use(); }$/;"	f
+cmp3	head.h	/^bool cmp3(weapon weapon1,weapon weapon2) { return weapon1.show_use() < weapon2.show_use(); }$/;"	f
+dragon	head.h	/^    dragon(bool rb,int id,int type,int elements,int atk):warrior(rb,id,type,elements,atk){}$/;"	f	class:dragon
+dragon	head.h	/^class dragon :public warrior $/;"	c
+get_elements	head.h	/^    int get_elements(){return _elements;}$/;"	f	class:warrior
+get_id	head.h	/^    int get_id(){return _id;}$/;"	f	class:warrior
+get_loyal	head.h	/^    int get_loyal(){return _loyal;}$/;"	f	class:lion
+get_rb	head.h	/^    int get_rb(){return _rb;}$/;"	f	class:warrior
+get_type	head.h	/^    int get_type(){return _type;}$/;"	f	class:warrior
+get_weapon	head.h	/^    void get_weapon(weapon weapon0)$/;"	f	class:warrior
+go	head.h	/^    int go()$/;"	f	class:path
+go	head.h	/^    void go(city *left,city *right)$/;"	f	class:city
+have_warrior	head.h	/^    bool have_warrior(bool rb){ return rb?warrior2:warrior1; }$/;"	f	class:city
+home	head.h	/^    home(int id ):city(id),_left_elements(M),_warrior_id(1),_rb(id),_is_run(1){ cout<<"home()"<<endl; }$/;"	f	class:home
+home	head.h	/^class home :public city$/;"	c
+homeB	head.h	/^    home homeB;$/;"	m	class:path
+homeR	head.h	/^    home homeR;$/;"	m	class:path
+home_hp_out	head.h	/^    void home_hp_out() $/;"	f	class:home
+home_hp_out	head.h	/^    void home_hp_out()$/;"	f	class:path
+iceman	head.h	/^    iceman(bool rb,int id,int type,int elements,int atk):warrior(rb,id,type,elements,atk){}$/;"	f	class:iceman
+iceman	head.h	/^class iceman :public warrior $/;"	c
+in_warrior	head.h	/^    void in_warrior(warrior *warrior0,int flag) $/;"	f	class:city
+is_changed	head.h	/^    bool is_changed;$/;"	m	class:warrior
+lion	head.h	/^    lion(bool rb,int id,int type,int elements,int atk,int loyal):warrior(rb,id,type,elements,atk),_loyal(loyal){}$/;"	f	class:lion
+lion	head.h	/^class lion:public warrior$/;"	c
+main	main.cc	/^int main()$/;"	f
+ninja	head.h	/^    ninja(bool rb,int id,int type,int elements,int atk):warrior(rb,id,type,elements,atk){}$/;"	f	class:ninja
+ninja	head.h	/^class ninja :public warrior $/;"	c
+path	head.h	/^    path(int N):homeR(0),homeB(N+1),_pcityArray(new city*[N+2])$/;"	f	class:path
+path	head.h	/^class path$/;"	c
+print_time	head.h	/^inline void print_time() { printf("%03d:%02d ",time_now_min\/60,time_now_min%60); }$/;"	f
+rob	head.h	/^    void rob()$/;"	f	class:city
+rob	head.h	/^    void rob()$/;"	f	class:path
+run	head.h	/^    void run()$/;"	f	class:city
+run	head.h	/^    void run()$/;"	f	class:path
+set_elements	head.h	/^    void set_elements(int elements){_elements = elements;};$/;"	f	class:warrior
+set_id	head.h	/^    void set_id(int id){ _id = id; }$/;"	f	class:city
+set_new_1	head.h	/^    void set_new_1(int new1){_new_in_1 = new1;}$/;"	f	class:city
+set_new_2	head.h	/^    void set_new_2(int new2){_new_in_2 = new2;}$/;"	f	class:city
+show	head.h	/^    void show()$/;"	f	class:path
+show	head.h	/^    void show(){cout<<"city: id = "<< _id << " ,warrior1 ->" << warrior1 << " ,warrior2 -> " << warrior2 << endl; }$/;"	f	class:city
+show_id	head.h	/^    int show_id(){return _id;}$/;"	f	class:city
+show_new_1	head.h	/^    bool show_new_1(){return _new_in_1;}$/;"	f	class:city
+show_new_2	head.h	/^    bool show_new_2(){return _new_in_2;}$/;"	f	class:city
+show_type	head.h	/^    int show_type(){return _type;}$/;"	f	class:weapon
+show_use	head.h	/^    int show_use(){return _use_time;}$/;"	f	class:weapon
+show_warrior1	head.h	/^    warrior *show_warrior1(){return warrior1;}$/;"	f	class:city
+show_warrior2	head.h	/^    warrior *show_warrior2(){return warrior2;}$/;"	f	class:city
+show_warrior_weapon	head.h	/^    void show_warrior_weapon()$/;"	f	class:city
+show_weapon	head.h	/^    void show_weapon()$/;"	f	class:warrior
+time_now_min	head.h	/^int time_now_min= 0;$/;"	v
+warrior	head.h	/^    warrior(bool rb,int id,int type,int elements,int atk):_rb(rb),_id(id),_type(type),_elements(elements),_atk(atk){}$/;"	f	class:warrior
+warrior	head.h	/^class warrior$/;"	c
+warrior1	head.h	/^    warrior *warrior1;$/;"	m	class:city
+warrior2	head.h	/^    warrior *warrior2;$/;"	m	class:city
+warriors	head.h	/^char warriors[5][20]={"dragon","ninja","iceman","lion","wolf"};$/;"	v
+warriors_weapons_out	head.h	/^    void warriors_weapons_out()$/;"	f	class:path
+weapon	head.h	/^    weapon(int type):_type(type)$/;"	f	class:weapon
+weapon	head.h	/^class weapon$/;"	c
+weapon_out	head.h	/^    vector<weapon> *weapon_out(int num)$/;"	f	class:warrior
+wolf	head.h	/^    wolf(bool rb,int id,int type,int elements,int atk):warrior(rb,id,type,elements,atk){}$/;"	f	class:wolf
+wolf	head.h	/^class wolf:public warrior $/;"	c
+~city	head.h	/^    ~city(){ cout<<"~city()"<<endl; }$/;"	f	class:city
+~home	head.h	/^    ~home() {cout<<"~home()"<<endl;}$/;"	f	class:home
+~path	head.h	/^    ~path()$/;"	f	class:path
+~warrior	head.h	/^    ~warrior(){}$/;"	f	class:warrior

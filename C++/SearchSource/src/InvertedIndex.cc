@@ -1,0 +1,388 @@
+//#pragma once
+#include "CostTime.cc"
+#include "Filter.cc"
+#include "Offset.cc"
+#include "Article.cc"
+#include "MyJson.cc"
+#include <iostream>
+#include <ctime>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <vector>
+#include <cmath>
+#include "./cppjieba/include/cppjieba/Jieba.hpp"
+//#include <unordered_map>
+using namespace std;
+namespace wd
+{
+class Word
+{
+public:
+    Word(const string &word):_TF(0),_DF(0),_IDF(0),_w(0),_word(word) {  }
+    bool operator =(const Word &hs) { return hs._word == _word; }
+    int _TF;//一篇文章......
+    int _DF;//所有文章
+    int _IDF;//所有文章
+    double _w;//权重,一篇文章
+    string _word;
+};
+
+class InvertedIndex
+{
+public:
+    InvertedIndex(
+                  const char* const DICT_PATH = "/home/lbz/github/all/C++/SearchSource/src/cppjieba/dict/jieba.dict.utf8",
+                  const char* const HMM_PATH = "/home/lbz/github/all/C++/SearchSource/src/cppjieba/dict/hmm_model.utf8",
+                  const char* const USER_DICT_PATH = "/home/lbz/github/all/C++/SearchSource/src/cppjieba/dict/user.dict.utf8",
+                  const char* const IDF_PATH = "/home/lbz/github/all/C++/SearchSource/src/cppjieba/dict/idf.utf8",
+                  const char* const STOP_WORD_PATH = "/home/lbz/github/all/C++/SearchSource/src/cppjieba/dict/stop_words.utf8",
+                  const char* const path_invertedIndex = "/home/lbz/github/all/C++/SearchSource/data/invertIndex.lib"
+                 )
+        : _jieba(DICT_PATH, HMM_PATH, USER_DICT_PATH, IDF_PATH, STOP_WORD_PATH)
+          ,_path_InvertedIndex(path_invertedIndex) { }
+
+    ~InvertedIndex() {}
+    void Build()
+    {
+        Offset offset0;
+        long N = offset0.Get_OffsetLength();
+        for(long i=0;i!=N;++i)
+        {
+            vector<string> words;
+            Article article0(i);
+            words = ReadWord(article0.Get_Article());
+            for(const string &it:words)
+            {
+                ++_counts[it][i];
+                //if(1 == _counts.count(it)) 
+                //{
+                //    if(1 == _counts[it].count(i))
+                //        _counts[it][i] += 1;
+                //    else
+                //        _counts[it].insert(pair<long,long>(i,1));//......
+                //}
+                //else//......
+                //{
+                //    pair<string , unordered_map< long,long > > Node;
+                //    Node.first = it;
+                //    pair<long,long> smallNode;
+                //    smallNode.first = i;
+                //    smallNode.second = 1;
+                //    Node.second.insert(smallNode);
+                //    _counts.insert(Node);
+                //}
+            }
+        }
+        for(const auto &it1 : _counts)
+        {
+            //for(const auto &it2 : it1.second)
+            //{
+            if(0 == _countsDF.count(it1.first))
+                _countsDF.insert(pair<string,long>(it1.first,it1.second.size()));
+            //else
+            //{
+            //    ++_countsDF[it1.first];
+            //}
+            //}
+        }
+        cout << "*****************************" << endl;
+        for(const auto &it1 : _countsDF)
+        {
+            if(it1.second != 1)
+                cout << "all " << it1.first << " occurs " << it1.second << endl;
+        }
+        cout << "*****************************" << endl;
+        getchar();
+        for(const auto &it1 : _countsDF)
+        {
+            _countsIDF.insert(pair<string , double>(it1.first,log(N/(it1.second + 1)) ));
+            //cout << log(N/(it1.second + 1)) << endl;
+        }
+        for(long i=0;i!=N;++i)
+        {
+            vector<string> words;
+            Article article0(i);
+            words = ReadWord(article0.Get_Article());
+            //double d0 = 0;
+            long double d3 = 0;
+            for(const string &it:words)  
+            {
+                //cout << "TF is " << _counts[it][i] << endl;
+                //cout << "DF is " << _countsDF[it] << endl;
+                //cout << "IDF is " << _countsIDF[it] << endl;
+                long double d1 =_counts[it][i] * _countsIDF[it];
+                //cout << "d1 is " << d1 << endl;
+                //cout << "d1 * d1 is " << d1 * d1 << endl;
+                d3 += d1;
+                //cout << "d3 is " << d3 << endl;
+                //d0 += _counts[it][i] * _counts[it][i] * _countsIDF[it] * _countsIDF[it];
+                //cout << "d0 is " << d0 << endl;
+            }
+            d3 = sqrt(d3);
+            //cout << d0 << endl;
+            for(const string &it:words)
+            {
+                double _w = _counts[it][i] * _countsIDF[it] / d3 ;
+                //cout << _w << endl;
+                if(0 == _invertedIndexTable.count(it))
+                {
+                    vector<pair<long , double>> v0;
+                    v0.push_back(pair<long , double>(i,_w));
+                    _invertedIndexTable.insert(pair<string,vector<pair<long,double>>>(it,v0));
+                }
+                else
+                {
+                    int flag = 1;
+                    for(auto it2 : _invertedIndexTable[it])
+                    {
+                        if(it2.first == i)
+                        {
+                            flag = 0;
+                            break;
+                        }
+                    }
+                    if(flag)
+                        _invertedIndexTable[it].push_back(pair<long,double>(i,_w));
+                }
+            }
+        }
+        ofstream InvertedIndex_in(_path_InvertedIndex);
+        for(auto it1:_invertedIndexTable)
+        {
+            InvertedIndex_in << it1.first;
+            for(auto it2 : it1.second)
+            {
+                InvertedIndex_in << " " << it2.first << " " << it2.second;
+            }
+            InvertedIndex_in << endl;
+        }
+        InvertedIndex_in.close();
+    }
+    void Read()
+    {
+        wd::CostTime CS0("Read");
+        ifstream InvertedIndex_in(_path_InvertedIndex);
+        typedef pair<string,vector<pair<long ,double>>>  bigNode;
+        typedef pair<long,double> smallNode;
+        bigNode b0;
+        string line;
+        while(getline(InvertedIndex_in , line) && !InvertedIndex_in.eof())
+        {
+            stringstream sline(line);
+            sline >> b0.first; 
+            //cout << b0.first;
+            long l;
+            double d;
+            while( sline >> l >> d )
+            {
+                b0.second.push_back(smallNode(l,d));
+                //cout << " " << l << " " << d;
+                if(sline.eof())
+                    break;
+            }
+            //cout << endl;
+            _invertedIndexTable.insert(b0);
+        }
+        InvertedIndex_in.close();
+        CS0.end();
+    }
+    void Simple()//去重
+    {
+    }
+    //int Query(const string content, vector<pair<long,double>> &SortedResult)//查询
+    //int Query(const string content,wd::MyJson &jsonResult)//查询
+    int Query(const string content,string &jsonResult)//查询
+    {
+        //1.对于查询的关键词，将它们视为一篇文档X，通过TF-IDF算法计算出每个关键词的权重系数；将其组成一个向量(x1, x2, ...,xn)
+        vector<string> words = ReadWord(content);  
+        unordered_map<string,long> countsTF;
+        for(const auto &it:words)
+        {
+            if(0 == countsTF.count(it))
+                countsTF.insert(pair<string,long>(it,1));
+            else
+                ++countsTF[it];
+        }
+        unordered_map<string,long> countsDF;
+        for(const auto &it:words)
+        {
+            if(0 == countsDF.count(it))
+            {
+                if(0 == _countsDF.count(it))
+                    countsDF.insert(pair<string,long>(it,1));
+                else
+                {
+                    cout << "it occurs " << _countsDF[it] << "times" << endl; 
+                    countsDF.insert(pair<string,long>(it,_countsDF[it]+1));
+                }
+            }
+        }
+        unordered_map<string,double> countsIDF;
+        Offset offset0;
+        long N = offset0.Get_OffsetLength();
+        for(const auto &it:words)
+        {
+            if(0 == countsIDF.count(it))
+            {
+                countsIDF.insert(pair<string,double>(it,log(N/(countsDF[it]+1))));
+            }
+        }
+        unordered_map<string,double> w;
+        for(const auto &it:words)
+        {
+            if(0 == w.count(it))
+            {
+                w.insert(pair<string,double>(it,countsTF[it] * countsIDF[it]));
+            }
+        }
+        double sum = 0;
+        for(const auto &it:w)
+        {
+            sum += it.second * it.second;
+        }
+        sum = sqrt(sum); 
+        cout << "sum is " << sum << endl;
+        unordered_map<string,double> w1;
+        for(const auto &it:w) 
+           w1.insert(pair<string,double>(it.first,it.second/sum));
+        //2.通过倒排索引表去查找包含所有关键字的网页；只要其中有一个查询词不在索引表中，就认为没有找到相关的网页；
+        for(const auto &it:w1)//先查有没有不存在的
+        {
+            if(0 == _invertedIndexTable.count(it.first))
+            {
+                cout << "无结果" << endl;
+                return 0;
+            }
+        }
+        int nums = w1.size();
+        cout << "nums is " << nums << endl;
+        unordered_map<long,int> tmp; 
+        unordered_map<long,vector<pair<string,double>>> result;
+        //先确定网页
+        for(const auto &it1:w1)
+            for(const auto it2:_invertedIndexTable[it1.first]) 
+                if(0 == tmp.count(it2.first))
+                    tmp.insert(pair<long,int>(it2.first,1));    
+                else
+                    ++tmp[it2.first];
+        //再读取对应权重
+        for(const auto &it1:tmp)
+        {
+            if(it1.second >= nums)
+            {
+                for(const auto &it2:w1)
+                {
+                    for(const auto &it3:_invertedIndexTable[it2.first])
+                    {
+                        if(it3.first == it1.first)
+                        {
+                            result[it1.first].push_back(pair<string,double>(it2.first,it3.second));
+                        }
+                    }
+                }
+            }
+        }
+        cout << "result size is " << result.size() << endl;
+        for(const auto &it1:result)
+        {
+            cout << it1.first << " ";
+            for(const auto &it2:it1.second)
+            {
+                cout << it2.first << " " << it2.second << " ";
+            }
+            cout << endl;
+        }
+        //对查找到的网页进行排序  
+        vector<pair<long,double>> sort0;
+        for(const auto &it:result)
+             sort0.push_back(pair<long , double>(it.first,Similar(w1,it.second)));
+        sort(sort0.begin(),sort0.end(),cmp);
+        //SortedResult = sort0;
+        //提取标题和摘要,封装成一个JSON字符串....中文?...
+        string summary;
+        for(auto const &it:words)
+            summary += it + " ";
+        vector<pair<string,string>> jsonNode;
+        for(const auto &it:sort0)
+            jsonNode.push_back(pair<string,string>(Article(it.first).Get_Title(),summary));
+        wd::MyJson myjson(jsonNode);
+        jsonResult = myjson.toStr();
+        //jsonResult = myjson;
+        return sort0.size();
+    }
+private:
+    //static ......
+    static bool cmp(const pair<long ,double> &lhs,const pair<long ,double> &rhs) 
+    { 
+        if(lhs.second != rhs.second)
+            return lhs.second < rhs.second; 
+        else
+            return lhs.first < rhs.first;
+    }
+    double Similar(const unordered_map<string,double> w1 , const vector<pair<string,double>> resultOne)
+    {
+        double a = 0;
+        for(const auto &it1:w1)
+            for(const auto &it2:resultOne)
+               if(it1.first == it2.first) 
+                   a += it1.second * it2.second;
+        double b = 0;
+        for(const auto &it:w1)
+            b += it.second * it.second;
+        double c = 0;
+        for(const auto &it:resultOne)
+            c += it.second * it.second;
+        cout << a << " " << b << " " << c << endl;
+        cout << a/(sqrt(b)* sqrt(c)) << endl;
+        return a/(sqrt(b) * sqrt(c));
+    }
+    vector<string> ReadWord(const string &article)
+    {
+        wd::CostTime CS0("ReadWord");
+        vector<string> words;
+        //jieba.Cut(article, words, true);
+        _jieba.CutForSearch(article,words,true);
+        words = _f0.Filter_word(words);
+        return words;
+        CS0.end();
+    }
+private:
+    cppjieba::Jieba _jieba;//初始化会花好长时间
+    Filter _f0;
+    string _path_InvertedIndex;
+    //unordered_map<string ,vector<pair<long ,long >> > _counts;
+    unordered_map<string ,unordered_map<long ,long > > _counts;//TF
+    unordered_map<string , long > _countsDF;//DF
+    unordered_map<string , double > _countsIDF;//IDF
+    //unordered_map<string , double > _countsW;//w
+    unordered_map<string , vector< pair<long,double> > > _invertedIndexTable;
+};
+
+}
+
+int main()
+{
+    wd::CostTime CS0("main");
+    wd::InvertedIndex I0;
+    I0.Build();
+    string test;
+    //vector<pair<long,double>> SortedResult;
+    //wd::MyJson jsonResult;
+    string jsonResult;
+    while(getline(cin,test))
+    {
+        //I0.Query(test,SortedResult);
+        //cout << "SortedResult's size() is " << SortedResult.size() << endl;
+        //for(const auto &it:SortedResult)
+        //{
+        //    cout << it.first << " " << it.second << endl;
+        //}
+        //I0.Query(test,jsonResult);
+        I0.Query(test,jsonResult);
+        cout << jsonResult << endl;
+    }
+    //I0.Read();
+    CS0.end();
+    return 0;
+}
